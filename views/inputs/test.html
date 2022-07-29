@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table</title>
+
+    <link rel="icon" href="favicon.ico" />
+    <link rel="stylesheet" href="../styles/global.css">
+</head>
+
+<body>
+    <h2>📊 Table</h2>
+    <div class="prjInput">
+        <div class="prjExtra">
+            <div>
+                Project Rotation <br />
+                <input type="number" name="rotation" id="rotation">
+            </div>
+            <div>
+                Project Handling/Time <br />
+                <input type="number" name="handling" id="handling">
+            </div>
+        </div>
+        <p style="color: red;">* Please make sure the projects last number doesn't contain comma or semicolon *</p>
+        <p>Ex: 1,2,3,4,5</p>
+        <div class="text-button">
+            <div>
+                Projects<br />
+                <textarea name="projects" id="projects" cols="30" rows="10" placeholder="1,2,3,4,5"></textarea>
+            </div>
+            <div>
+                <br />
+                <button class="btnInput"
+                    onclick="setConfig(document.getElementById('projects').value, document.getElementById('rotation').value, document.getElementById('handling').value)">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <table id="maintable">
+        <tr>
+            <th>Index</th>
+            <th>Projects</th>
+            <!-- <th>Multiplier</th> -->
+            <th>Old</th>
+            <th>New</th>
+            <th>Remains</th>
+            <th>Available</th>
+        </tr>
+    </table>
+
+    <script src="/data/input.js"></script>
+</body>
+
+</html>
