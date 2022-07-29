@@ -62,13 +62,10 @@ function setConfig(projectss, rotationss, handlingss) {
             }
 
             for (let i = projectRotation; i < table.length; i++) {
-                let old_prep = table[i - (i - 1)].new_pm - 1;
-                let old_prep_2 = table[i - (i - 1)].new_pm - old_prep;
+                let old_prep = table[i - i].new_pm - 1;
+                let old_prep_2 = table[i - i].new_pm - old_prep;
 
-                oldPm =
-                    table[i].need > 0
-                        ? old_prep_2 + table[i - (i - 1)].need
-                        : table[i - (i - 1)].old_pm + table[i - (i - 1)].new_pm;
+                oldPm = table[i].need > 0 ? old_prep_2 + table[i].need : table[i].old_pm + table[i].new_pm;
 
                 newPm = multiplier / projectHandling - oldPm;
 
