@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/input', (req, res) => {
-    res.sendFile('./views/inputs/test.html', { root: __dirname });
+    res.sendFile('./views/inputs/index.html', { root: __dirname });
 });
 
 app.get('/input/pm', (req, res) => {
@@ -27,6 +27,10 @@ app.get('/input/pm', (req, res) => {
 
 app.get('/input/tester', (req, res) => {
     res.sendFile('./views/inputs/tester/index.html', { root: __dirname });
+});
+
+app.get('/input/ba', (req, res) => {
+    res.sendFile('./views/inputs/ba/index.html', { root: __dirname });
 });
 
 app.get('/input/eng', (req, res) => {
@@ -39,5 +43,5 @@ app.get('/input/uxui', (req, res) => {
 
 // App Listen
 app.listen(port, () => {
-    console.log(`App listening on port ${port}`);
+    console.log(`[--App--] Listening on PORT: ${port}`);
 });
