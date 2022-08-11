@@ -151,9 +151,15 @@
                         // If Old + New > Resource = new Old & New
                         let sum_resource = oldP + newP;
 
+                        // 30% & Then Round Up or Round Down
+
                         if (sum_resource > resource) {
                             oldP = table[i - (projectRotation - 1)].new_p + table[i - (projectRotation - 1)].old_p;
                             newP = resource - oldP;
+                        }
+
+                        if (newP < 0) {
+                            newP = 0;
                         }
 
                         // Remain Projects - Less than 0 condition
