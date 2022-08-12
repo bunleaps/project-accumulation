@@ -46,11 +46,11 @@
         <tr>
             <th>Index</th>
             <th>Projects</th>
-            <th>Multiplier</th>
+            <!-- <th>Multiplier</th> -->
             <th>Old</th>
             <th>New</th>
-            <th>Remains</th>
-            <th>Available</th>
+            <!-- <th>Remains</th>
+            <th>Available</th> -->
             <th>Total</th>
         </tr>
     </table>
@@ -145,6 +145,7 @@
                     // Rotation - New Methods
                     for (let i = projectRotation; i < table.length; i++) {
                         oldP = table[i - (projectRotation - 1)].new_p + table[i - (projectRotation - 1)].old_p;
+                        oldP = Math.ceil(0.3 * oldP);
                         newP = resource - oldP;
 
                         // Old & New depend on Resource
@@ -155,6 +156,7 @@
 
                         if (sum_resource > resource) {
                             oldP = table[i - (projectRotation - 1)].new_p + table[i - (projectRotation - 1)].old_p;
+                            oldP = Math.ceil(0.3 * oldP);
                             newP = resource - oldP;
                         }
 
@@ -195,11 +197,11 @@
                 <tr>
                     <th>Index</th>
                     <th>Projects</th>
-                    <th>Multiplier</th>
+                    <!-- <th>Multiplier</th> -->
                     <th>Old</th>
                     <th>New</th>
-                    <th>Remains</th>
-                    <th>Available</th>
+                    <!-- <th>Remains</th> -->
+                    <!-- <th>Available</th> -->
                     <th>Total</th>
                 </tr>
             `;
@@ -210,11 +212,11 @@
                 <tr>
                     <td><b>${index}</b></td>
                     <td>${da.projects}</td>
-                    <td>${da.multi}</td>
+                    <!-- <td>${da.multi}</td> -->
                     <td>${da.old_p}</td>
                     <td>${da.new_p}</td>
-                    <td>${da.remain}</td>
-                    <td>${da.need}</td>
+                    <!-- <td>${da.remain}</td> -->
+                    <!-- <td>${da.need}</td> -->
                     <td>${da.total}</td>
                 </tr>
             `;
