@@ -23,6 +23,10 @@
                 Project Handling/Time <br />
                 <input type="number" name="handling" id="handling">
             </div>
+            <div>
+                Attrition Rate <br />
+                <input type="number" name="attrition" id="attrition">%
+            </div>
         </div>
         <br />
         <p style="color: red;">* Please make sure the projects last number doesn't contain comma or semicolon *</p>
@@ -37,7 +41,7 @@
             <div>
                 <br />
                 <button class="btnInput"
-                    onclick="setConfig(document.getElementById('projects').value, document.getElementById('rotation').value, document.getElementById('handling').value)">Submit</button>
+                    onclick="setConfig(document.getElementById('projects').value, document.getElementById('rotation').value, document.getElementById('handling').value, document.getElementById('attrition').value)">Submit</button>
             </div>
         </div>
     </div>
@@ -61,7 +65,7 @@
             navigator.clipboard.writeText([5, 5, 5, 5, 5, 5, 10, 10, 10, 10, 10, 10, 15, 15, 15, 15, 15, 15, 20, 20, 20, 20, 20, 20, 25, 25, 25, 25, 25, 25, 30, 30, 30, 30, 30, 30, 35, 35, 35, 35, 35, 35, 40, 40, 40, 40, 40, 40, 45, 45, 45, 45, 45, 45, 50, 50, 50, 50, 50, 50])
         }
 
-        function setConfig(projectss, rotationss, handlingss) {
+        function setConfig(projectss, rotationss, handlingss, attritionss) {
             function findMultiplier(project, handle) {
                 let new_handle = handle;
                 let mul = new_handle / project;
@@ -83,13 +87,15 @@
                     }),
                 rotationss: parseInt(rotationss),
                 handlingss: parseInt(handlingss),
+                attritionss: parseInt(attritionss)
             };
 
             const projects = config.projectsList;
             const rotation = config.rotationss;
             const handle = config.handlingss;
+            const attritions = config.attritionss;
 
-            function findPM(projectsArray, projectRotation, projectHandling) {
+            function findPM(projectsArray, projectRotation, projectHandling, attritionRate) {
                 let table = [
                     {
                         projects: 0,
@@ -142,10 +148,12 @@
                         needPrj = remainPrj > 0 ? 1 : 0;
                     }
 
+                    let attrition_Rate = attritionRate / 100;
+
                     // Rotation - New Methods
                     for (let i = projectRotation; i < table.length; i++) {
                         oldP = table[i - (projectRotation - 1)].new_p + table[i - (projectRotation - 1)].old_p;
-                        oldP = Math.ceil(0.3 * oldP);
+                        oldP = Math.ceil(attrition_Rate * oldP);
                         newP = resource - oldP;
 
                         // Old & New depend on Resource
@@ -156,7 +164,7 @@
 
                         if (sum_resource > resource) {
                             oldP = table[i - (projectRotation - 1)].new_p + table[i - (projectRotation - 1)].old_p;
-                            oldP = Math.ceil(0.3 * oldP);
+                            oldP = Math.ceil(attrition_Rate * oldP);
                             newP = resource - oldP;
                         }
 
@@ -191,7 +199,7 @@
                 return table;
             }
 
-            const data = findPM(projects, rotation, handle);
+            const data = findPM(projects, rotation, handle, attritions);
 
             const tableHead = `
                 <tr>
