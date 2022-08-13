@@ -153,6 +153,8 @@
                     // Rotation - New Methods
                     for (let i = projectRotation; i < table.length; i++) {
                         oldP = table[i - (projectRotation - 1)].new_p + table[i - (projectRotation - 1)].old_p;
+
+                        // Attrition Rate Dynamic
                         oldP = Math.ceil(attrition_Rate * oldP);
                         newP = resource - oldP;
 
@@ -164,6 +166,7 @@
 
                         if (sum_resource > resource) {
                             oldP = table[i - (projectRotation - 1)].new_p + table[i - (projectRotation - 1)].old_p;
+                            // Attrition Rate Dynamic
                             oldP = Math.ceil(attrition_Rate * oldP);
                             newP = resource - oldP;
                         }
