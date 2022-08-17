@@ -50,6 +50,7 @@
         <tr>
             <th>Index</th>
             <th>Projects</th>
+            <th>Projects after Attrition</th>
             <!-- <th>Multiplier</th> -->
             <th>Old</th>
             <th>New</th>
@@ -62,7 +63,7 @@
     <!-- <script src="/data/index.js"></script> -->
     <script>
         function copyProjects() {
-            navigator.clipboard.writeText([5, 5, 5, 5, 5, 5, 10, 10, 10, 10, 10, 10, 15, 15, 15, 15, 15, 15, 20, 20, 20, 20, 20, 20, 25, 25, 25, 25, 25, 25, 30, 30, 30, 30, 30, 30, 35, 35, 35, 35, 35, 35, 40, 40, 40, 40, 40, 40, 45, 45, 45, 45, 45, 45, 50, 50, 50, 50, 50, 50])
+            navigator.clipboard.writeText([1, 1, 2, 2, 2, 2, 10, 10, 10, 10, 10, 10, 41, 3, 13, 13, 13, 21, 46, 46, 46, 46, 46, 46, 46, 0, 42, 42, 42, 75, 44, 44, 44, 44, 44, 44, 44, 0, 40, 40, 40, 96, 42, 42, 42, 42, 42, 42, 42, 0, 38, 38, 38, 115, 40, 40, 40, 40, 40, 40, 40, 0, 37, 37])
         }
 
         function setConfig(projectss, rotationss, handlingss, attritionss) {
@@ -99,6 +100,7 @@
                 let table = [
                     {
                         projects: 0,
+                        projects_after_attr: 0,
                         multi: 0,
                         old_p: 0,
                         new_p: 0,
@@ -113,6 +115,7 @@
                 let remainPrj = 0;
                 let needPrj = 0;
                 let total = 0;
+                let prj_after_attr = 0;
 
                 for (let index in projectsArray) {
                     // Declare Necessary
@@ -162,8 +165,6 @@
                         // If Old + New > Resource = new Old & New
                         let sum_resource = oldP + newP;
 
-                        // 30% & Then Round Up or Round Down
-
                         if (sum_resource > resource) {
                             oldP = table[i - (projectRotation - 1)].new_p + table[i - (projectRotation - 1)].old_p;
                             // Attrition Rate Dynamic
@@ -185,11 +186,22 @@
                         oldSharePrj = true;
                     }
 
+                    // Total Sum of Project and then Attrition rate on project and then reset when project hits zero
+
+
                     // Total 
                     total = total + newP;
 
+                    prj_after_attr = prj_after_attr + projectsArray[index];
+                    prj_after_attr = Math.ceil(attrition_Rate * prj_after_attr);
+
+                    if (projectsArray[index] == 0) {
+                        prj_after_attr = 0;
+                    }
+
                     table.push({
                         projects: projectsArray[index],
+                        projects_after_attr: prj_after_attr,
                         multi: multiplier,
                         old_p: oldP,
                         new_p: newP,
@@ -208,6 +220,7 @@
                 <tr>
                     <th>Index</th>
                     <th>Projects</th>
+                    <th>Projects after Attrition</th>
                     <!-- <th>Multiplier</th> -->
                     <th>Old</th>
                     <th>New</th>
@@ -223,6 +236,7 @@
                 <tr>
                     <td><b>${index}</b></td>
                     <td>${da.projects}</td>
+                    <td>${da.projects_after_attr}</td>
                     <!-- <td>${da.multi}</td> -->
                     <td>${da.old_p}</td>
                     <td>${da.new_p}</td>
