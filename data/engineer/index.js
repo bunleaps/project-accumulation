@@ -20,6 +20,7 @@ function setConfig(projectss, rotationss, handlingss, attritionss) {
         let table = [
             {
                 projects: 0,
+                projects_after_attr: 0,
                 multi: 0,
                 old_eng: 0,
                 new_eng: 0,
@@ -30,6 +31,7 @@ function setConfig(projectss, rotationss, handlingss, attritionss) {
         let oldEng = 0;
         let newEng = 0;
         let total = 0;
+        let prj_after_attr = 0;
 
         for (let index in projectsArray) {
             let resource = projectHandling * projectsArray[index];
@@ -49,8 +51,16 @@ function setConfig(projectss, rotationss, handlingss, attritionss) {
 
             total = total + newEng;
 
+            prj_after_attr = prj_after_attr + projectsArray[index];
+            prj_after_attr = Math.ceil(attrition_Rate * prj_after_attr);
+
+            if (projectsArray[index] == 0) {
+                prj_after_attr = 0;
+            }
+
             table.push({
                 projects: projectsArray[index],
+                projects_after_attr: prj_after_attr,
                 old_eng: oldEng,
                 new_eng: newEng,
                 total: total,
@@ -67,6 +77,7 @@ function setConfig(projectss, rotationss, handlingss, attritionss) {
             <tr>
                 <th>Index</th>
                 <th>Projects</th>
+                <th>Projects after Attrition</th>
                 <th>Old</th>
                 <th>New</th>
                 <th>Total</th>
@@ -79,6 +90,7 @@ function setConfig(projectss, rotationss, handlingss, attritionss) {
                 <tr>
                     <td><b>${index}</b></td>
                     <td>${info.projects}</td>
+                    <td>${info.projects_after_attr}</td>
                     <td>${info.old_eng}</td>
                     <td>${info.new_eng}</td>
                     <td>${info.total}</td>
