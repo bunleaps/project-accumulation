@@ -34,13 +34,21 @@ function setConfig(projectss, rotationss, handlingss, attritionss) {
         let prj_after_attr = 0;
 
         for (let index in projectsArray) {
+
             let resource = projectHandling * projectsArray[index];
             newEng = resource;
 
             let attrition_Rate = attritionRate / 100;
 
             for (let num = projectRotation; num < table.length; num++) {
-                oldEng = table[num - (projectRotation - 1)].new_eng;
+
+                // *Problem* is here 
+                // Sample Code: 
+                // oldP = table[i - (projectRotation - 1)].new_p + table[i - (projectRotation - 1)].old_p;
+                oldEng = table[num - (projectRotation - 1)].new_eng + table[num - (projectRotation - 1)].old_eng;
+                // oldEng = table[num - (projectRotation - 1)].new_eng;
+
+
                 oldEng = Math.ceil(attrition_Rate * oldEng);
                 newEng = resource - oldEng;
 
@@ -73,7 +81,6 @@ function setConfig(projectss, rotationss, handlingss, attritionss) {
     const data = findEng(projects, rotation, handle, attritions);
 
     const tableHead = `
-        
             <tr>
                 <th>Index</th>
                 <th>Projects</th>
