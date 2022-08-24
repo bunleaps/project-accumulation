@@ -42,14 +42,15 @@ function setConfig(projectss, rotationss, handlingss, attritionss) {
 
             for (let num = projectRotation; num < table.length; num++) {
 
-                // *Problem* is here 
-                // Sample Code: 
-                // oldP = table[i - (projectRotation - 1)].new_p + table[i - (projectRotation - 1)].old_p;
                 oldEng = table[num - (projectRotation - 1)].new_eng + table[num - (projectRotation - 1)].old_eng;
-                // oldEng = table[num - (projectRotation - 1)].new_eng;
 
-
-                oldEng = Math.ceil(attrition_Rate * oldEng);
+                if(attrition_Rate == 0) {
+                    oldEng = table[num - (projectRotation - 1)].new_eng + table[num - (projectRotation - 1)].old_eng;
+                } else {
+                    // Problem is here all bro
+                    oldEng = Math.ceil(attrition_Rate * oldEng);
+                }
+                
                 newEng = resource - oldEng;
 
                 if (newEng < 0) {
