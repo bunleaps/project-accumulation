@@ -44,12 +44,16 @@ function setConfig(projectss, rotationss, handlingss, attritionss) {
 
                 oldEng = table[num - (projectRotation - 1)].new_eng + table[num - (projectRotation - 1)].old_eng;
 
-                if(attrition_Rate == 0) {
-                    oldEng = table[num - (projectRotation - 1)].new_eng + table[num - (projectRotation - 1)].old_eng;
-                } else {
-                    // Problem is here all bro
+                // if(attrition_Rate == 0) {
+                //     // Bug #1
+                //     oldEng = oldEng;
+
+                //     // Possible Fix
+                //     // 1) Write new variable for new_eng
+                //     // 2) something is wrong in the (oldEng == 0)
+                // } else {
                     oldEng = Math.ceil(attrition_Rate * oldEng);
-                }
+                // }
                 
                 newEng = resource - oldEng;
 
@@ -62,6 +66,10 @@ function setConfig(projectss, rotationss, handlingss, attritionss) {
 
             prj_after_attr = prj_after_attr + projectsArray[index];
             prj_after_attr = Math.ceil(attrition_Rate * prj_after_attr);
+
+            if (prj_after_attr == 0) {
+                prj_after_attr = projectsArray[index];
+            }
 
             if (projectsArray[index] == 0) {
                 prj_after_attr = 0;
