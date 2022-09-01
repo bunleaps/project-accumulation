@@ -1,71 +1,87 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Engineer Table</title>
-
-    <link rel="icon" href="favicon.ico" />
-    <link rel="stylesheet" href="../styles/global.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Engineer</title>
+    <link rel="stylesheet" type="text/css" href="../styles/styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
 
 <body>
-    <h2>📊 Engineer Table</h2>
-    <div class="prjInput">
-        <div class="prjExtra">
-            <div>
-                Project Rotation <br />
-                <input type="number" name="rotation" id="rotation">
+    <div class="navbar-fixed">
+        <nav>
+            <div class="nav-wrapper deep-purple">
+                <a href="#" class="brand-logo center"><i class="material-icons">account_circle
+                    </i>Engineer</a>
             </div>
-            <div>
-                Resources Each Project <br />
-                <input type="number" name="handling" id="handling">
-            </div>
-            <div>
-                Attrition Rate <br />
-                <input type="number" name="attrition" id="attrition">%
-            </div>
-        </div>
-        <p><b>Sample Input:</b> Project Rotation <span class="code">4</span>, Resources Each Project <span
-                class="code">5</span></p>
-        <br />
-        <p style="color: red;">* Please make sure the projects last number doesn't contain comma or semicolon *</p>
-        <p>Ex: 1,2,3,4,5</p>
-        <br />
-        <p><b>Sample Project Input:</b> <button onclick="copyProjects()">Copy to Clipboard</button></p>
-        <div class="text-button">
-            <div>
-                Projects<br />
-                <textarea name="projects" id="projects" cols="30" rows="10" placeholder="1,2,3,4,5"></textarea>
-            </div>
-            <div>
-                <br />
-                <button class="btnInput"
-                    onclick="setConfig(document.getElementById('projects').value, document.getElementById('rotation').value, document.getElementById('handling').value, document.getElementById('attrition').value)">Submit</button>
-            </div>
-        </div>
-
+        </nav>
     </div>
 
-    <table id="maintable">
-        <tr>
-            <th>Index</th>
-            <th>Projects</th>
-            <th>Projects after Attrition</th>
-            <!-- <th>Multiplier</th> -->
-            <th>Old</th>
-            <th>New</th>
-            <th>Total</th>
-        </tr>
-    </table>
+    <br />
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <div class="row">
+                    <div class="input-field col s4">
+                        <input id="rotation" type="number">
+                        <label for="rotation">Project Rotation</label>
+                    </div>
+                    <div class="input-field col s4">
+                        <input id="resource" type="number">
+                        <label for="resource">Project Resource</label>
+                    </div>
+                    <div class="input-field col s4">
+                        <input id="attrition" type="number">
+                        <label for="attrition">Attrition Rate (%)</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s8">
+                        <textarea id="projects" class="materialize-textarea"></textarea>
+                        <label for="projects">Projects</label>
+                    </div>
+                    <div class="col s4">
+                        <button onclick="copyProjects();" class="waves-effect waves-light btn-large deep-purple"><i
+                                class="material-icons left">content_copy</i>COPY</button>
+                        <button onclick="submitProjects();" class="waves-effect waves-light btn-large deep-purple"><i
+                                class="material-icons left">send</i>submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <table id="maintable">
+            <tr>
+                <th>Index</th>
+                <th>Projects</th>
+                <th>Total</th>
+                <th>Old</th>
+                <th>New</th>
+                <th>Accumulate</th>
+            </tr>
+        </table>
+    </div>
 
-    <script src="/data/engineer/index.js"></script>
-    <script>
-        function copyProjects() {
-            navigator.clipboard.writeText([1, 1, 2, 2, 2, 2, 10, 10, 10, 10, 10, 10, 41, 3, 13, 13, 13, 21, 46, 46, 46, 46, 46, 46, 46, 0, 42, 42, 42, 75, 44, 44, 44, 44, 44, 44, 44, 0, 40, 40, 40, 96, 42, 42, 42, 42, 42, 42, 42, 0, 38, 38, 38, 115, 40, 40, 40, 40, 40, 40])
+
+
+    <script type="text/javascript" src="/data/engineer/index.js"></script>
+    <script type="text/javascript">
+
+        function submitProjects() {
+            setConfig(document.getElementById('projects').value, document.getElementById('rotation').value, document.getElementById('resource').value, document.getElementById('attrition').value);
         }
+
+        function copyProjects() {
+            navigator.clipboard.writeText([1, 1, 2, 2, 2, 2, 10, 10, 10, 10, 10, 10, 41, 3, 13, 13, 13, 21, 46, 46, 46, 46, 46, 46, 46, 0, 42, 42, 42, 75, 44, 44, 44, 44, 44, 44, 44, 0, 40, 40, 40, 96, 42, 42, 42, 42, 42, 42, 42, 0, 38, 38, 38, 115, 40, 40, 40, 40, 40, 40]);
+            M.toast({ html: 'Project List Copied!' })
+        }
+
+        // setConfig("1, 1, 2, 2, 2, 2, 10, 10, 10, 10, 10, 10, 41, 3, 13, 13, 13, 21, 46, 46, 46, 46, 46, 46, 46, 0, 42, 42, 42, 75, 44, 44, 44, 44, 44, 44, 44, 0, 40, 40, 40, 96, 42, 42, 42, 42, 42, 42, 42, 0, 38, 38, 38, 115, 40, 40, 40, 40, 40, 40", "4", "5", "0");
     </script>
 </body>
 

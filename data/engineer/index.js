@@ -1,3 +1,12 @@
+// Initialized Pre-Data
+const prj = [
+    1, 1, 2, 2, 2, 2, 10, 10, 10, 10, 10, 10, 41, 3, 13, 13, 13, 21, 46, 46, 46, 46, 46, 46, 46, 0, 42, 42, 42, 75, 44, 44,
+    44, 44, 44, 44, 44, 0, 40, 40, 40, 96, 42, 42, 42, 42, 42, 42, 42, 0, 38, 38, 38, 115, 40, 40, 40, 40, 40, 40,
+];
+const rot = 4;
+const res = 5;
+const atr = 10;
+
 function setConfig(projectss, rotationss, handlingss, attritionss) {
     let config = {
         projectsList: projectss
@@ -16,103 +25,98 @@ function setConfig(projectss, rotationss, handlingss, attritionss) {
     const handle = config.handlingss;
     const attritions = config.attritionss;
 
-    function findEng(projectsArray, projectRotation, projectHandling, attritionRate) {
+    // Initialized Simulator
+    function EngineerSimulator(projectsArray, projectRotation, projectResource, attritionRate) {
+        // Setup
         let table = [
             {
                 projects: 0,
-                projects_after_attr: 0,
-                multi: 0,
-                old_eng: 0,
-                new_eng: 0,
-                total: 0,
+                oldEngineer: 0,
+                newEngineer: 0,
+                totalEngineer: 0,
+                accumulate: 0,
             },
         ];
+        let oldEngineer = 0;
+        let newEngineer = 0;
+        let totalEngineer = 0;
+        let accumulateTotal = 0;
 
-        let oldEng = 0;
-        let newEng = 0;
-        let total = 0;
-        let prj_after_attr = 0;
-
+        // Simulation
         for (let index in projectsArray) {
+            let attrition = attritionRate / 100;
 
-            let resource = projectHandling * projectsArray[index];
-            newEng = resource;
+            totalEngineer = projectResource * projectsArray[index];
+            newEngineer = totalEngineer;
+            accumulateTotal = newEngineer;
 
-            let attrition_Rate = attritionRate / 100;
+            if (attrition == 0) {
+                for (let n = projectRotation; n < table.length; n++) {
+                    oldEngineer =
+                        table[n - (projectRotation - 1)].newEngineer + table[n - (projectRotation - 1)].oldEngineer;
 
-            for (let num = projectRotation; num < table.length; num++) {
+                    newEngineer = totalEngineer - oldEngineer;
 
-                oldEng = table[num - (projectRotation - 1)].new_eng + table[num - (projectRotation - 1)].old_eng;
-
-                // if(attrition_Rate == 0) {
-                //     // Bug #1
-                //     oldEng = oldEng;
-
-                //     // Possible Fix
-                //     // 1) Write new variable for new_eng
-                //     // 2) something is wrong in the (oldEng == 0)
-                // } else {
-                    oldEng = Math.ceil(attrition_Rate * oldEng);
-                // }
-                
-                newEng = resource - oldEng;
-
-                if (newEng < 0) {
-                    newEng = 0;
+                    if (newEngineer < 0) {
+                        newEngineer = 0;
+                    }
                 }
-            }
+            } else {
+                for (let i = 0; i < table.length; i++) {
+                    oldEngineer = table[i].accumulate;
+                    oldEngineer = Math.round(attrition * oldEngineer);
 
-            total = total + newEng;
+                    newEngineer = totalEngineer - oldEngineer;
 
-            prj_after_attr = prj_after_attr + projectsArray[index];
-            prj_after_attr = Math.ceil(attrition_Rate * prj_after_attr);
+                    if (newEngineer < 0) {
+                        oldEngineer = oldEngineer - Math.abs(newEngineer);
+                        newEngineer = 0;
+                    }
 
-            if (prj_after_attr == 0) {
-                prj_after_attr = projectsArray[index];
-            }
-
-            if (projectsArray[index] == 0) {
-                prj_after_attr = 0;
+                    accumulateTotal = table[i].accumulate + newEngineer;
+                }
             }
 
             table.push({
                 projects: projectsArray[index],
-                projects_after_attr: prj_after_attr,
-                old_eng: oldEng,
-                new_eng: newEng,
-                total: total,
+                oldEngineer: oldEngineer,
+                newEngineer: newEngineer,
+                totalEngineer: totalEngineer,
+                accumulate: accumulateTotal,
             });
         }
 
         return table;
     }
 
-    const data = findEng(projects, rotation, handle, attritions);
+    // Display Informations
+    const data = EngineerSimulator(projects, rotation, handle, attritions);
 
     const tableHead = `
-            <tr>
-                <th>Index</th>
-                <th>Projects</th>
-                <th>Projects after Attrition</th>
-                <th>Old</th>
-                <th>New</th>
-                <th>Total</th>
-            </tr>
-        `;
+	        <tr>
+	            <th>Index</th>
+	            <th>Projects</th>
+	            <th>Total</th>
+	            <th>Old</th>
+	            <th>New</th>
+	            <th>Accumulate</th>
+	        </tr>
+	    `;
 
     const html = data
         .map((info, index) => {
             return `
-                <tr>
-                    <td><b>${index}</b></td>
-                    <td>${info.projects}</td>
-                    <td>${info.projects_after_attr}</td>
-                    <td>${info.old_eng}</td>
-                    <td>${info.new_eng}</td>
-                    <td>${info.total}</td>
-                </tr>
-            `;
+	            <tr>
+	                <td><b>${index}</b></td>
+	                <td>${info.projects}</td>
+	                <td>${info.totalEngineer}</td>
+	                <td>${info.oldEngineer}</td>
+	                <td>${info.newEngineer}</td>
+	                <td>${info.accumulate}</td>
+	            </tr>
+	        `;
         })
+        .slice(1)
         .join('');
 
     const htmlTable = document.querySelector('#maintable');
