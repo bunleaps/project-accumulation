@@ -35,12 +35,14 @@ function setConfig(projectss, rotationss, handlingss, attritionss) {
                 newEngineer: 0,
                 totalEngineer: 0,
                 accumulate: 0,
+                engineerTotal: 0,
             },
         ];
         let oldEngineer = 0;
         let newEngineer = 0;
         let totalEngineer = 0;
         let accumulateTotal = 0;
+        let engineerTotal = 0;
 
         // Simulation
         for (let index in projectsArray) {
@@ -77,12 +79,15 @@ function setConfig(projectss, rotationss, handlingss, attritionss) {
                 }
             }
 
+            engineerTotal = engineerTotal + newEngineer;
+
             table.push({
                 projects: projectsArray[index],
                 oldEngineer: oldEngineer,
                 newEngineer: newEngineer,
                 totalEngineer: totalEngineer,
                 accumulate: accumulateTotal,
+                engineerTotal: engineerTotal,
             });
         }
 
@@ -100,6 +105,7 @@ function setConfig(projectss, rotationss, handlingss, attritionss) {
 	            <th>Old</th>
 	            <th>New</th>
 	            <th>Accumulate</th>
+                <th>Engineer Total</th>
 	        </tr>
 	    `;
 
@@ -113,6 +119,7 @@ function setConfig(projectss, rotationss, handlingss, attritionss) {
 	                <td>${info.oldEngineer}</td>
 	                <td>${info.newEngineer}</td>
 	                <td>${info.accumulate}</td>
+                    <td>${info.engineerTotal}</td>
 	            </tr>
 	        `;
         })
